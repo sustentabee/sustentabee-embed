@@ -1,0 +1,43 @@
+– Passo 1 – Escolher a corrente rms máxima que será medida pelo circuito
+imax (rms) = 10A
+
+– Passo 2 – Converter esta corrente para o valor de pico:
+i (medido) = √2 * imax (rms) = 1,414 * 10A = 14,14 A
+
+– Passo 3 – Descobrir o número total de espiras da bobina do secundário:
+Sabendo que para uma corrente de 100A no primário, ele produz 50mA no secundário, é só jogarmos na fórmula de relação de transformação. O resultado será:
+
+N1 / N2 = I2 / I1
+
+I1 = corrente no primário (corrente a ser medida);
+I2 = corrente no secundário;
+N1 = número de votas do primário (no caso deste sensor, N1 será igual a 1);
+N2 = número de voltas do secundário.
+N2 = 2000 espiras.
+
+– Passo 4 – Calcular a corrente de pico máxima do secundário do SCT-013:
+i (sensor) = i (medido) / numero_de_espiras = 14,14A / 2000 = 0,00707A
+
+– Passo 5 – Dimensionar o resistor de carga:
+Para tensão do sensor (U(sensor)) é adotada a metade da tensão de entrada (3,3V), portanto, 1,65V
+R(carga) = U(sensor)/I(sensor) = 1,65V / 0,00707A = 232Ω
+
+Para o projeto, arredondamos este valor para 220Ω, que é um valor comercial de resistor.
+
+R(carga) = 220Ω
+
+– Passo 6 – Colocando o valor de calibração no software:
+Agora que sabemos o sensor carga, modificamos a função SCT013.current onde definimos o pino de entrada e o valor de calibração.
+
+SCT013.current(pinSCT, Valor_de_Calibracao);
+Este valor é de calibração, destinado justamente para caso queiramos mudar o valor do resistor de carga. Para descobrir ele, basta dividir o número total de voltas (espiras) do secundário pelo valor do resistor de carga dimensionado:
+
+Valor_de_Calibração = N2 / R(carga)
+
+Valor_de_Calibração = 2000 / 220
+
+Valor_de_Calibração = 09,09
+
+Dessa forma, teremos:
+
+SCT013.current(pinSCT, 9.1);

@@ -1,0 +1,10 @@
+version: '3'
+services:
+  pyenv:
+    container_name: pyenv
+    build: .
+    command: sh -c "while [ true ]; do sleep 10; done"
+    volumes:
+      - .:/app
+    ports:
+      - 5000:5000
